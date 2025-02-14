@@ -1,0 +1,37 @@
+LINKMULTI=Count
+LINK="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
+
+;Settings
+UNIT=MM
+PAGE=210,297,PORTRAIT,HV
+DPI=300
+CARDSIZE=60,90
+GAP=1,1
+BORDER=RECTANGLE,#000000,0.5
+HTMLLANG=en
+
+;Static Labels
+[size_x]=60
+[size_y]=90
+[source_height]=3
+[padding]=1.5
+
+;Fonts
+HTMLFONT=source,Arial,5,R,#FFFFFF,RIGHT
+
+;Background
+RECTANGLE=,0,0,100%,100%,[ACTIONTYPECOLOR]
+
+;Source
+[source_x]=[padding]
+[source_y]=[size_y]-[padding]-[source_height]
+[source_width]=[size_x]-[padding]*2
+[source_text]=JOIN([SOURCEBOOK]," ",[PAGE])
+[source_text]=REPLACE([source_text],"Players Handbook","PHB")
+[source_text]=REPLACE([source_text],"Tashas Cauldron of Everything","TCE")
+[source_text]=REPLACE([source_text],"Xanathar's Guide to Everything","XGtE")
+HTMLTEXT=,[source_text],[source_x],[source_y],[source_width],[source_height],#FFFFFF,0,EBMF,100,source
+
+[range]=LABELRANGE([NAME],<><i>Cover</i>)
+special=£
+SAVE=[range],JOIN("Cards/Backs/",[NAME],"_",{£},".png"),0,0,[size_x],[size_y]
