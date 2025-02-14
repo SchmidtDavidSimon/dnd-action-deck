@@ -2,8 +2,8 @@
 UNIT=MM
 PAGE=210,297,PORTRAIT,HV
 DPI=300
-CARDSIZE=60,90
-GAP=1,1
+CARDSIZE=63,94.5
+;GAP=1,1
 
 [fronts]=DIRFILES("Cards\Fronts\*.png")
 [backs]=DIRFILES("Cards\Backs\*.png")

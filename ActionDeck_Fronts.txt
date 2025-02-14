@@ -6,8 +6,8 @@ LINK="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
 UNIT=MM
 PAGE=210,297,PORTRAIT,HV
 DPI=300
-CARDSIZE=60,90
-GAP=1,1
+CARDSIZE=63,94.5
+;GAP=1,1
 BORDER=RECTANGLE,#000000,0.5
 HTMLLANG=en
 
@@ -18,8 +18,8 @@ HTMLLANG=en
 [resource_prime]=7
 
 ;Static Labels
-[size_x]=60
-[size_y]=90
+[size_x]=63
+[size_y]=94.5
 [header_size]=10
 [section_size]=7
 [text_padding]=0.5
