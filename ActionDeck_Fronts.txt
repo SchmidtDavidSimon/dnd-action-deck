@@ -266,16 +266,16 @@ counter=,E,0 ;; RESOURCES
 [blank_con]=_NOT_([concentration_check])_AND_([ritual_check])
 [blank_rit]=([concentration_check])_AND__NOT_([ritual_check])
 [spell_info_text]=""
-[spell_info_text]=JOINIF([spell_info_text],[CONCENTRATION],=,1,"(Concentration) ","")
-[spell_info_text]%[blank_con]=JOIN([spell_info_text],"(Blank) ")
+[spell_info_text]=JOINIF([spell_info_text],[RITUAL],=,1,"(Ritual) ","")
+[spell_info_text]%[blank_rit]=JOIN([spell_info_text],"(Blank) ")
 [spell_info_text]=JOINIF([spell_info_text],[VERBALCOMP],=,1,"V ","")
 [spell_info_text]=JOINIF([spell_info_text],[SEMANTICCOMP],=,1,"S ","")
 [spell_info_text]=JOINIF([spell_info_text],[materials_check],=,1,"<b>","")
 [spell_info_text]=JOINIF([spell_info_text],[MATERIALCOMP],=,1,"M ","")
 [spell_info_text]=JOINIF([spell_info_text],[materials_check],=,1,"</b>","")
 [spell_info_text]=JOIN([spell_info_text],"<br>")
-[spell_info_text]=JOINIF([spell_info_text],[RITUAL],=,1,"(Ritual) ","")
-[spell_info_text]%[blank_rit]=JOIN([spell_info_text], "(Blank) ")
+[spell_info_text]=JOINIF([spell_info_text],[CONCENTRATION],=,1,"(Concentration) ","")
+[spell_info_text]%[blank_con]=JOIN([spell_info_text], "(Blank) ")
 [spell_info_text]=JOIN([spell_info_text],[DURATION])
 
 [no_spell_check]=[SCHOOL]=""
