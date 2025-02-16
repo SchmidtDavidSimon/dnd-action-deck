@@ -15,7 +15,7 @@ HTMLLANG=en
 [padding]=1.5
 [icon_size]=4
 [section_clearance]=0.5
-[header_width]=18.5
+[header_width]=([size_x]-([padding]*3))/3
 [header_height]=3.5
 [border_thickness]=0.25
 
