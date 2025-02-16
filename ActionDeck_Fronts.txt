@@ -440,8 +440,7 @@ ENDIF
 IF=[upcastable]=1
 HTMLTEXT=,[UPCASTBONUS],[upcast_x],[upcast_y],[upcast_width],[upcast_height],#FFFFFF,0,BFEM,100,description
 ENDIF
-counter=,F,3
-[limited_use_boxes]F=TickBox
+[limited_use_boxes]=REPEAT("TickBox",[AMOUNT])
 [limited_uses]=JOIN([LIMITEDUSES],[limited_use_boxes])
 ICONS=,[limited_uses],[footer_x],[footer_y],[footer_width],[footer_height],[footer_icon_size],[footer_icon_size],0,XPNL,LEFT,CENTER
 HTMLTEXT=,[footer_text],[footer_x],[footer_y],[footer_width],[footer_height],#FFFFFF,0,BFEM,100,footer
