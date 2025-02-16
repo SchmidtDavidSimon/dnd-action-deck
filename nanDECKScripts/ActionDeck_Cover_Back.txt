@@ -1,0 +1,177 @@
+LINKMULTI=Count
+LINK="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
+
+;Settings
+UNIT=MM
+PAGE=210,297,PORTRAIT,HV
+DPI=300
+CARDSIZE=63,94.5
+BORDER=RECTANGLE,#000000,0.75
+HTMLLANG=en
+
+;Static Labels
+[size_x]=63
+[size_y]=94.5
+[padding]=1.5
+[icon_size]=4
+[section_clearance]=0.5
+[header_width]=([size_x]-([padding]*3))/3
+[header_height]=3.5
+[border_thickness]=0.25
+
+;Fonts
+HTMLFONT=headers,Arial,8,R,#000000,LEFT
+HTMLFONT=icons,Arial,6,R,#000000,LEFT
+
+;Background
+RECTANGLE=,0,0,100%,100%,#BEBEBE
+
+;Icons
+;;Resources = 3
+HTMLIMAGE=,"(Hit Point Dice)",..\Icons\Resources\hitpointdice.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,"(Lay On Hands Healing Pool)",..\Icons\Resources\layonhands.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,"(Bardic Inspiration Die)",..\Icons\Resources\inspiration.png,[icon_size],[icon_size],PM
+;;Tags = 6
+HTMLIMAGE=,(Movement),..\Icons\Tags/movement.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Social),..\Icons\Tags/social.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Buff),..\Icons\Tags\buff.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Debuff),..\Icons\Tags\debuff.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Offensive),..\Icons\Tags\offensive.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Defensive),..\Icons\Tags\defensive.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Heal),..\Icons\Tags\heal.png,[icon_size],[icon_size],PM
+;;Ranges = 4
+HTMLIMAGE=,(Melee),..\Icons\Range\melee.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Ranged),..\Icons\Range\ranged.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Self),..\Icons\Range\self.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Touch),..\Icons\Range\touch.png,[icon_size],[icon_size],PM
+;;Area of Effects = 6
+HTMLIMAGE=,(Cone),..\Icons\Aoe\cone.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Cube),..\Icons\Aoe\cube.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Cylinder),..\Icons\Aoe\cylinder.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Emanation),..\Icons\Aoe\emanation.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Line),..\Icons\Aoe\line.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Sphere),..\Icons\Aoe\sphere.png,[icon_size],[icon_size],PM
+;;Spell Info =  6
+HTMLIMAGE=,(Concentration),..\Icons\SpellInfo\concentration.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Ritual),..\Icons\SpellInfo\ritual.png,[icon_size],[icon_size],PM
+;;Attack Methods = 3
+HTMLIMAGE=,(Save),..\Icons\AttackMethod\save.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Spell),..\Icons\AttackMethod\spellattack.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Attack),..\Icons\AttackMethod\attack.png,[icon_size],[icon_size],PM
+;;Damage Types = 12
+HTMLIMAGE=,(Acid),..\Icons\DamageTypes\acid.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Bludgeoning),..\Icons\DamageTypes\bludgeoning.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Cold),..\Icons\DamageTypes\cold.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Fire),..\Icons\DamageTypes\fire.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Force),..\Icons\DamageTypes\force.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Lightning),..\Icons\DamageTypes\lightning.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Necrotic),..\Icons\DamageTypes\necrotic.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Piercing),..\Icons\DamageTypes\piercing.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Psychic),..\Icons\DamageTypes\psychic.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Radiant),..\Icons\DamageTypes\radiant.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Slashing),..\Icons\DamageTypes\slashing.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,(Thunder),..\Icons\DamageTypes\thunder.png,[icon_size],[icon_size],PM
+;;Limited Uses = 2
+HTMLIMAGE=,"(Short Rest)",..\Icons\LimitedUses\shortrest.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,"(Long Rest)",..\Icons\LimitedUses\longrest.png,[icon_size],[icon_size],PM
+
+;Legend
+;;Spell Info
+[si_header_x]=[padding]
+[si_header_y]=[padding]
+[si_body_x]=[si_header_x]
+[si_body_y]=[si_header_y]+[header_height]
+[si_body_width]=[header_width]
+[si_body_height]=19
+[si_text]="(Concentration) Concentration<br>(Ritual) Ritual<br>V Verbal Comp<br>S Sematic Comp<br>M Material Comp<br><b>M</b> Required Material"
+RECTANGLE=,[si_header_x]-[padding],[si_header_y]-[padding],[header_width]+[padding],[si_body_height]+[header_height]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Spells",[si_header_x],[si_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[si_text],[si_body_x],[si_body_y],[si_body_width],[si_body_height],#FFFFFF,0,EBFM,100,icons
+
+;;Resources
+[res_header_x]=[si_header_x]
+[res_header_y]=([si_body_y])+[si_body_height]+[section_clearance]
+[res_body_x]=[res_header_x]
+[res_body_y]=([res_header_y])+[header_height]
+[res_body_width]=[header_width]
+[res_body_height]=[size_y]-([res_body_y])-[padding]
+[res_text]="(Hit Point Dice) Hit Dice<br>(Lay On Hands Healing Pool) Healing Pool<br>(Bardic Inspiration Die) Bardic Insp."
+RECTANGLE=,[res_header_x]-[padding],[res_header_y]-[section_clearance],[header_width]+[padding],[res_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Resources",[res_header_x],[res_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[res_text],[res_body_x],[res_body_y],[res_body_width],[res_body_height],#FFFFFF,0,BEFM,100,icons
+
+;;Damage Types
+[dt_header_x]=[si_header_x]+[header_width]+[padding]
+[dt_header_y]=[padding]
+[dt_body_x]=([dt_header_x])
+[dt_body_y]=[dt_header_y]+[header_height]
+[dt_body_width]=[header_width]
+[dt_body_height]=51
+[dt_text]="(Acid) Acid<br>(Bludgeoning) Bludgeoning<br>(Cold) Cold<br>(Fire) Fire<br>(Force) Force<br>(Lightning) Lightning<br>(Necrotic) Necrotic<br>(Piercing) Piercing<br>(Psychic) Psychic<br>(Radiant) Radiant<br>(Slashing) Slashing<br>(Thunder) Thunder"
+RECTANGLE=,[dt_header_x]-[padding],[dt_header_y]-[padding],[header_width]+[padding],[dt_body_height]+[header_height]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Damage Types",[dt_header_x],[dt_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[dt_text],[dt_body_x],[dt_body_y],[dt_body_width],[dt_body_height],#FFFFFF,0,BEFM,100,icons
+
+;;Attack Methods
+[am_header_x]=([dt_header_x])
+[am_header_y]=([dt_body_y])+[dt_body_height]+[section_clearance]
+[am_body_x]=([am_header_x])
+[am_body_y]=([am_header_y])+[header_height]
+[am_body_width]=[header_width]
+[am_body_height]=13
+[am_text]="(Attack) Attack<br>(Spell) Spell Attack<br>(Save) Save"
+RECTANGLE=,[am_header_x]-[padding],[am_header_y]-[section_clearance],[header_width]+[padding],[am_body_height]+[header_height]+[section_clearance],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Attack Methods",[am_header_x],[am_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[am_text],[am_body_x],[am_body_y],[am_body_width],[am_body_height],#FFFFFF,0,BEFM,100,icons
+
+;;Limited Uses
+[li_header_x]=([am_header_x])
+[li_header_y]=([am_body_y])+[am_body_height]+[section_clearance]
+[li_body_x]=([li_header_x])
+[li_body_y]=([li_header_y])+[header_height]
+[li_body_width]=[header_width]
+[li_body_height]=[size_y]-([si_body_y])-[padding]
+[li_text]="(Long Rest) Long Rest<br>(Short Rest) Short Rest"
+RECTANGLE=,[li_header_x]-[padding],[li_header_y]-[section_clearance],[header_width]+[padding],[li_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Spells",[li_header_x],[li_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[li_text],[li_body_x],[li_body_y],[li_body_width],[li_body_height],#FFFFFF,0,BEFM,100,icons
+
+;;Ranges
+[range_header_x]=([dt_header_x])+[header_width]+[padding]
+[range_header_y]=[padding]
+[range_body_x]=([range_header_x])
+[range_body_y]=[range_header_y]+[header_height]
+[range_body_width]=[header_width]
+[range_body_height]=17.5
+[range_text]="(Melee) Melee<br>(Ranged) Ranged<br>(Self) Self<br>(Touch) Touch"
+RECTANGLE=,[range_header_x]-[padding],[range_header_y]-[padding],[header_width]+[padding],[range_body_height]+[header_height]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Ranges",[range_header_x],[range_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[range_text],[range_body_x],[range_body_y],[range_body_width],[range_body_height],#FFFFFF,0,BEFM,100,icons
+
+;;Area of Effects
+[aoe_header_x]=([range_header_x])
+[aoe_header_y]=([range_body_y])+[range_body_height]+[section_clearance]
+[aoe_body_x]=([aoe_header_x])
+[aoe_body_y]=([aoe_header_y])+[header_height]
+[aoe_body_width]=[header_width]
+[aoe_body_height]=25.75
+[aoe_text]="(Cone) Cone<br>(Cube) Cube<br>(Cylinder) Cylinder<br>(Emanation) Emanation<br>(Line) Line<br>(Sphere) Sphere"
+RECTANGLE=,[aoe_header_x]-[padding],[aoe_header_y]-[section_clearance],[header_width]+[padding],[aoe_body_height]+[header_height]+[section_clearance],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"AoEs",[aoe_header_x],[aoe_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[aoe_text],[aoe_body_x],[aoe_body_y],[aoe_body_width],[aoe_body_height],#FFFFFF,0,BEFM,100,icons
+
+;;Tags
+[tag_header_x]=([aoe_header_x])
+[tag_header_y]=([aoe_body_y])+[aoe_body_height]+[section_clearance]
+[tag_body_x]=([aoe_header_x])
+[tag_body_y]=([tag_header_y])+[header_height]
+[tag_body_width]=[header_width]
+[tag_body_height]=[size_y]-([tag_body_y])-[padding]
+[tag_text]="(Movement) Movement<br>(Social) Social<br>(Buff) Buff<br>(Debuff) Debuff<br>(Offensive) Offensive<br>(Defensive) Defensive<br>(Heal) Heal"
+RECTANGLE=,[tag_header_x]-[padding],[tag_header_y]-[section_clearance],[header_width]+[padding],[tag_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Tags",[tag_header_x],[tag_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[tag_text],[tag_body_x],[tag_body_y],[tag_body_width],[tag_body_height],#FFFFFF,0,BEFM,100,icons
+
+[range]=LABELRANGE([NAME],=<i>Cover</i>)
+special=£
+SAVE=[range],JOIN("..\Cards\Backs\00_Cover_",{£},".png"),0,0,[size_x],[size_y]
