@@ -36,23 +36,14 @@ HTMLFONT=materials,Arial,8,R,#FFFFFF,LEFT
 
 ;Icons
 ICON=,Blank,Icons/blank.png
-ICON=,Artificer,Icons/Classes/artificer.png
-ICON=,Barbarian,Icons/Classes/barbarian.png
-ICON=,Bard,Icons/Classes/bard.png
-ICON=,Cleric,Icons/Classes/cleric.png
-ICON=,Druid,Icons/Classes/druid.png
-ICON=,Fighter,Icons/Classes/fighter.png
-ICON=,Monk,Icons/Classes/monk.png
-ICON=,Paladin,Icons/Classes/paladin.png
-ICON=,Ranger,Icons/Classes/ranger.png
-ICON=,Rogue,Icons/Classes/rogue.png
-ICON=,Sorcerer,Icons/Classes/sorcerer.png
-ICON=,Warlock,Icons/Classes/warlock.png
-ICON=,Wizard,Icons/Classes/wizard.png
+ICON=,TickBox,Icons/tickbox.png
+ICON=,"Short Rest",Icons/LimitedUses/shortrest.png
+ICON=,"Long Rest",Icons/LimitedUses/longrest.png
 ICON=,"Hit Point Dice",Icons/Resources/hitpointdice.png
 ICON=,"Lay On Hands Healing Pool",Icons/Resources/layonhands.png
 ICON=,"Inspiration Die",Icons/Resources/inspiration.png
 HTMLIMAGE=,(Blank),Icons/blank.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(TickBox),Icons/tickbox.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(Movement),Icons/Tags/movement.png,[footer_icon_size],[footer_icon_size],PM
 HTMLIMAGE=,(Social),Icons/Tags/social.png,[footer_icon_size],[footer_icon_size],PM
 HTMLIMAGE=,(Buff),Icons/Tags/buff.png,[footer_icon_size],[footer_icon_size],PM
@@ -446,9 +437,10 @@ ENDIF
 IF=[upcastable]=1
 HTMLTEXT=,[UPCASTBONUS],[upcast_x],[upcast_y],[upcast_width],[upcast_height],#FFFFFF,0,BFEM,100,description
 ENDIF
-
-[classes_fix]=REPLACE([CLASSES],"\44\ ","")
-ICONS=,[classes_fix],[footer_x],[footer_y],[footer_width],[footer_height],[footer_icon_size],[footer_icon_size],0,XPNL,LEFT,CENTER
+counter=,F,3
+[limited_use_boxes]F=TickBox
+[limited_uses]=JOIN([LIMITEDUSES],[limited_use_boxes])
+ICONS=,[limited_uses],[footer_x],[footer_y],[footer_width],[footer_height],[footer_icon_size],[footer_icon_size],0,XPNL,LEFT,CENTER
 HTMLTEXT=,[footer_text],[footer_x],[footer_y],[footer_width],[footer_height],#FFFFFF,0,BFEM,100,footer
 
 [range]=LABELRANGE([NAME],<><i>Cover</i>)
