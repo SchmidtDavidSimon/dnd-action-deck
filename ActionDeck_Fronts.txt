@@ -126,8 +126,11 @@ HTMLIMAGE=,(Thunder),Icons/DamageTypes/thunder.png,[section_icon_size],[section_
 RECTANGLE=,[footer_box_x],[footer_box_y],[footer_box_width],[footer_box_height],[border_color]
 RECTANGLE=,[header_box_x],[header_box_y],[header_box_width],[header_box_height],[border_color],EMPTY,[header_box_thickness]
 RECTANGLE=,0%,0%,100%,100%,[border_color],EMPTY,[outer_border_thickness]
-RECTANGLE=,0,0,1,1,[border_color] ;;To remove single white pixel >:(
 ROUNDRECT=,0%,0%,100%,[inner_border_height],[border_color],EMPTY,[inner_border_thickness]
+RECTANGLE=,0,0,2,2,[border_color]
+RECTANGLE=,[size_x]-2,0,2,2,[border_color]
+RECTANGLE=,0,[footer_box_y]-2,2,2,[border_color]
+RECTANGLE=,[size_x]-2,[footer_box_y]-2,2,2,[border_color]
 
 [attack_method_flag]={[FIELDFLAGS]#[attack_method_prime]}
 [range_flag]={[FIELDFLAGS]#[range_prime]}
