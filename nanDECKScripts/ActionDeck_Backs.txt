@@ -33,4 +33,4 @@ HTMLTEXT=,[source_text],[source_x],[source_y],[source_width],[source_height],#FF
 
 [range]=LABELRANGE([NAME],<><i>Cover</i>)
 special=£
-SAVE=[range],JOIN("Cards/Backs/",[NAME],"_",{£},".png"),0,0,[size_x],[size_y]
+SAVE=[range],JOIN("..\Cards\Backs\",[NAME],"_",{£},".png"),0,0,[size_x],[size_y]

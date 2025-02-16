@@ -4,8 +4,8 @@ PAGE=210,297,PORTRAIT,HV
 DPI=300
 CARDSIZE=63,94.5
 
-[fronts]=DIRFILES("Cards\Fronts\*.png")
-[backs]=DIRFILES("Cards\Backs\*.png")
+[fronts]=DIRFILES("..\Cards\Fronts\*.png")
+[backs]=DIRFILES("..\Cards\Backs\*.png")
 [rangef]=1-{(fronts)}
 [rangeb]={(fronts)+1}-{(fronts)+(backs)}
 
@@ -13,4 +13,4 @@ IMAGE=[rangef],[fronts],0,0,100%,100%
 IMAGE=[rangeb],[backs],0,0,100%,100%
 DUPLEX=[rangef],[rangeb]
 PRINT=DUPLEX
-SAVEPDF=ActionDeck.pdf,N
+SAVEPDF=..\ActionDeck.pdf,N

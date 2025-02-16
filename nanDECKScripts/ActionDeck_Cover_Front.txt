@@ -14,11 +14,11 @@ HTMLLANG=en
 [size_y]=94.5
 
 VISUAL=, 12, 15
-IMAGE=,"Images\Cover\deadserpent.png",0%,0%,100%,100%
+IMAGE=,"..\Images\Cover\deadserpent.png",0%,0%,100%,100%
 HTMLFONT=title,Georgia,20,RAD,#000000,CENTER
 HTMLTEXT=,"Action Deck",{11/1}%,{73/8}%,{20423/400}%,{13631/150}%,#FFFFFF,0,BE,100,title
 ENDVISUAL
 
 [range]=LABELRANGE([NAME],=<i>Cover</i>)
 special=£
-SAVE=[range],JOIN("Cards/Fronts/00_Cover_",{£},".png"),0,0,[size_x],[size_y]
+SAVE=[range],JOIN("..\Cards\Fronts\00_Cover_",{£},".png"),0,0,[size_x],[size_y]
