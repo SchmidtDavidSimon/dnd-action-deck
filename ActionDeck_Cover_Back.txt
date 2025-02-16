@@ -27,20 +27,6 @@ HTMLFONT=icons,Arial,6,R,#000000,LEFT
 RECTANGLE=,0,0,100%,100%,#BEBEBE
 
 ;Icons
-;;Classes = 13
-HTMLIMAGE=,(Artificer),Icons/Classes/artificer.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Barbarian),Icons/Classes/barbarian.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Bard),Icons/Classes/bard.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Cleric),Icons/Classes/cleric.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Druid),Icons/Classes/druid.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Fighter),Icons/Classes/fighter.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Monk),Icons/Classes/monk.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Paladin),Icons/Classes/paladin.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Ranger),Icons/Classes/ranger.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Rogue),Icons/Classes/rogue.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Sorcerer),Icons/Classes/sorcerer.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Warlock),Icons/Classes/warlock.png,[icon_size],[icon_size],PM
-HTMLIMAGE=,(Wizard),Icons/Classes/wizard.png,[icon_size],[icon_size],PM
 ;;Resources = 3
 HTMLIMAGE=,"(Hit Point Dice)",Icons/Resources/hitpointdice.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,"(Lay On Hands Healing Pool)",Icons/Resources/layonhands.png,[icon_size],[icon_size],PM
@@ -65,7 +51,7 @@ HTMLIMAGE=,(Cylinder),Icons/Aoe/cylinder.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Emanation),Icons/Aoe/emanation.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Line),Icons/Aoe/line.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Sphere),Icons/Aoe/sphere.png,[icon_size],[icon_size],PM
-;;Spell Info =  4
+;;Spell Info =  6
 HTMLIMAGE=,(Concentration),Icons/SpellInfo/concentration.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Ritual),Icons/SpellInfo/ritual.png,[icon_size],[icon_size],PM
 ;;Attack Methods = 3
@@ -85,23 +71,26 @@ HTMLIMAGE=,(Psychic),Icons/DamageTypes/psychic.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Radiant),Icons/DamageTypes/radiant.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Slashing),Icons/DamageTypes/slashing.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Thunder),Icons/DamageTypes/thunder.png,[icon_size],[icon_size],PM
+;;Limited Uses = 2
+HTMLIMAGE=,"(Short Rest)",Icons/LimitedUses/shortrest.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,"(Long Rest)",Icons/LimitedUses/longrest.png,[icon_size],[icon_size],PM
 
 ;Legend
-;;Classes
-[class_header_x]=[padding]
-[class_header_y]=[padding]
-[class_body_x]=[class_header_x]
-[class_body_y]=[class_header_y]+[header_height]
-[class_body_width]=[header_width]
-[class_body_height]=55
-[class_text]="(Artificer) Artificer<br>(Barbarian) Barbarian<br>(Bard) Bard<br>(Cleric) Cleric<br>(Druid) Druid<br>(Fighter) Fighter<br>(Monk) Monk<br>(Paladin) Paladin<br>(Ranger) Ranger<br>(Rogue) Rogue<br>(Sorcerer) Sorcerer<br>(Warlock) Warlock<br>(Wizard) Wizard"
-RECTANGLE=,[class_header_x]-[padding],[class_header_y]-[padding],[header_width]+[padding],[class_body_height]+[header_height]+[padding],#000000,EMPTY,[border_thickness]
-HTMLTEXT=,"Classes",[class_header_x],[class_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
-HTMLTEXT=,[class_text],[class_body_x],[class_body_y],[class_body_width],[class_body_height],#FFFFFF,0,EBFM,100,icons
+;;Spell Info
+[si_header_x]=[padding]
+[si_header_y]=[padding]
+[si_body_x]=[si_header_x]
+[si_body_y]=[si_header_y]+[header_height]
+[si_body_width]=[header_width]
+[si_body_height]=19
+[si_text]="(Concentration) Concentration<br>(Ritual) Ritual<br>V Verbal Comp<br>S Sematic Comp<br>M Material Comp<br><b>M</b> Required Material"
+RECTANGLE=,[si_header_x]-[padding],[si_header_y]-[padding],[header_width]+[padding],[si_body_height]+[header_height]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Spells",[si_header_x],[si_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[si_text],[si_body_x],[si_body_y],[si_body_width],[si_body_height],#FFFFFF,0,EBFM,100,icons
 
 ;;Resources
-[res_header_x]=[class_header_x]
-[res_header_y]=([class_body_y])+[class_body_height]+[section_clearance]
+[res_header_x]=[si_header_x]
+[res_header_y]=([si_body_y])+[si_body_height]+[section_clearance]
 [res_body_x]=[res_header_x]
 [res_body_y]=([res_header_y])+[header_height]
 [res_body_width]=[header_width]
@@ -112,7 +101,7 @@ HTMLTEXT=,"Resources",[res_header_x],[res_header_y],[header_width],[header_heigh
 HTMLTEXT=,[res_text],[res_body_x],[res_body_y],[res_body_width],[res_body_height],#FFFFFF,0,BEFM,100,icons
 
 ;;Damage Types
-[dt_header_x]=[class_header_x]+[header_width]+[padding]
+[dt_header_x]=[si_header_x]+[header_width]+[padding]
 [dt_header_y]=[padding]
 [dt_body_x]=([dt_header_x])
 [dt_body_y]=[dt_header_y]+[header_height]
@@ -135,17 +124,17 @@ RECTANGLE=,[am_header_x]-[padding],[am_header_y]-[section_clearance],[header_wid
 HTMLTEXT=,"Attack Methods",[am_header_x],[am_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
 HTMLTEXT=,[am_text],[am_body_x],[am_body_y],[am_body_width],[am_body_height],#FFFFFF,0,BEFM,100,icons
 
-;;Spell Info
-[si_header_x]=([am_header_x])
-[si_header_y]=([am_body_y])+[am_body_height]+[section_clearance]
-[si_body_x]=([si_header_x])
-[si_body_y]=([si_header_y])+[header_height]
-[si_body_width]=[header_width]
-[si_body_height]=[size_y]-([si_body_y])-[padding]
-[si_text]="(Concentration) Concentration<br>(Ritual) Ritual<br>V/S/M Comp"
-RECTANGLE=,[si_header_x]-[padding],[si_header_y]-[section_clearance],[header_width]+[padding],[si_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
-HTMLTEXT=,"Spells",[si_header_x],[si_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
-HTMLTEXT=,[si_text],[si_body_x],[si_body_y],[si_body_width],[si_body_height],#FFFFFF,0,BEFM,100,icons
+;;Limited Uses
+[li_header_x]=([am_header_x])
+[li_header_y]=([am_body_y])+[am_body_height]+[section_clearance]
+[li_body_x]=([li_header_x])
+[li_body_y]=([li_header_y])+[header_height]
+[li_body_width]=[header_width]
+[li_body_height]=[size_y]-([si_body_y])-[padding]
+[li_text]="(Long Rest) Long Rest<br>(Short Rest) Short Rest"
+RECTANGLE=,[li_header_x]-[padding],[li_header_y]-[section_clearance],[header_width]+[padding],[li_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
+HTMLTEXT=,"Spells",[li_header_x],[li_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,[li_text],[li_body_x],[li_body_y],[li_body_width],[li_body_height],#FFFFFF,0,BEFM,100,icons
 
 ;;Ranges
 [range_header_x]=([dt_header_x])+[header_width]+[padding]
