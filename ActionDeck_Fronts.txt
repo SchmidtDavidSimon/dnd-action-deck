@@ -230,6 +230,8 @@ counter=,E,0 ;; RESOURCES
 [footer_height]=([footer_box_height])-[text_padding]*2
 
 
+[save_damage_text]=JOIN([SAVEDAMAGE],"(",[SAVEDAMAGETYPE],")")
+
 [attack_check]=JOINIF(,[ROLLINGMETHOD],@,"Attack",1,0)
 [spell_attack_check]=JOINIF(,[ROLLINGMETHOD],@,"SpellAttck",1,0)
 [save_check]=JOINIF(,[ROLLINGMETHOD],@,"Save",1,0)
@@ -237,16 +239,21 @@ counter=,E,0 ;; RESOURCES
 [attack_or_spell_check]=JOINIF(,[attack_or_spell_matrix],@,1,1,0)
 [attack_and_save_matrix]=JOIN([attack_or_spell_check],[save_check])
 [attack_and_save_check]=JOINIF(,[attack_and_save_matrix],=,11,1,0)
+[only_save_check]=JOINIF(,[attack_and_save_matrix],=,01,1,0)
+[save_damage_check]=JOINIF(,[save_damage_text],=,"()",0,1)
+[only_save_and_damage_matrix]=JOIN([only_save_check],[save_damage_check])
+[only_save_and_damage_check]=JOINIF(,[only_save_and_damage_matrix],=,11,1,0)
 [attack_method_text]=""
 [attack_method_text]=JOINIF([attack_method_text],[attack_check],=,1,"(Attack) ","")
 [attack_method_text]=JOINIF([attack_method_text],[spell_attack_check],=,1,"(Spell) ","")
 [attack_method_text]=JOINIF([attack_method_text],[attack_and_save_check],=,1,"<br>","")
+[attack_method_text]=JOINIF([attack_method_text],[only_save_and_damage_check],=,1,"(Blank)<br>","")
 [attack_method_text]=JOINIF([attack_method_text],[save_check],=,1,"(Save) ","")
 [attack_method_text]=JOINIF([attack_method_text],[save_check],=,1,[SAVECALC],"")
 
 [damage_text]=JOIN([ATTACKDAMAGE],"(",[ATTACKDAMAGETYPE],")")
 [damage_text]=JOINIF([damage_text],[attack_and_save_check],=,1,"<br>","")
-[save_damage_text]=JOIN([SAVEDAMAGE],"(",[SAVEDAMAGETYPE],")")
+[damage_text]=JOINIF([damage_text],[only_save_and_damage_check],=,1,"(Blank)<br>","")
 [damage_text]=JOINIF([damage_text],[save_check],=,1,[save_damage_text],"")
 [damage_text]=REPLACE([damage_text],"()","")
 [save_damage_empty_check]=JOINIF(,[save_damage_text],=,"()",1,0)
