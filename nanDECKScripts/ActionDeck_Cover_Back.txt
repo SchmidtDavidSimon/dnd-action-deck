@@ -133,7 +133,7 @@ HTMLTEXT=,[am_text],[am_body_x],[am_body_y],[am_body_width],[am_body_height],#FF
 [li_body_height]=[size_y]-([si_body_y])-[padding]
 [li_text]="(Long Rest) Long Rest<br>(Short Rest) Short Rest"
 RECTANGLE=,[li_header_x]-[padding],[li_header_y]-[section_clearance],[header_width]+[padding],[li_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
-HTMLTEXT=,"Spells",[li_header_x],[li_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
+HTMLTEXT=,"Limited Uses",[li_header_x],[li_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
 HTMLTEXT=,[li_text],[li_body_x],[li_body_y],[li_body_width],[li_body_height],#FFFFFF,0,BEFM,100,icons
 
 ;;Ranges
