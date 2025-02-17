@@ -37,7 +37,7 @@ HTMLFONT=materials,Arial,8,R,#FFFFFF,LEFT
 ;Icons
 ICON=,Blank,..\Icons\blank.png
 ICON=,TickBox,..\Icons\tickbox.png
-ICON=,"Short Rest",..\Icons\LimitedUsesshortrest.png
+ICON=,"Short Rest",..\Icons\LimitedUses\shortrest.png
 ICON=,"Long Rest",..\Icons\LimitedUses\longrest.png
 ICON=,"Hit Point Dice",..\Icons\Resources\hitpointdice.png
 ICON=,"Lay On Hands Healing Pool",..\Icons\Resources\layonhands.png
