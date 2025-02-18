@@ -28,11 +28,11 @@ HTMLLANG=en
 
 ;Fonts
 HTMLFONT=name,Arial,32,RA,#000000,CENTER
-HTMLFONT=description,Arial,10,RH,#000000,JUSTIFY
+HTMLFONT=description,Arial,10,RHD,#000000,JUSTIFY
 HTMLFONT=section,Arial,15,RH,#000000,LEFT
 HTMLFONT=damage,Arial,15,RH,#000000,RIGHT
 HTMLFONT=footer,Arial,8,R,#FFFFFF,RIGHT
-HTMLFONT=materials,Arial,8,R,#FFFFFF,LEFT
+HTMLFONT=materials,Arial,8,RD,#FFFFFF,LEFT,0,0,0,,,0,0,,0.25
 
 ;Icons
 ICON=,Blank,..\Icons\blank.png
