@@ -20,7 +20,7 @@ HTMLLANG=en
 [border_thickness]=0.25
 
 ;Fonts
-HTMLFONT=headers,Arial,8,R,#000000,LEFT
+HTMLFONT=headers,Arial,8,RI,#000000,LEFT
 HTMLFONT=icons,Arial,6,R,#000000,LEFT
 
 ;Background
@@ -31,6 +31,7 @@ RECTANGLE=,0,0,100%,100%,#BEBEBE
 HTMLIMAGE=,"(Hit Point Dice)",..\Icons\Resources\hitpointdice.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,"(Lay On Hands Healing Pool)",..\Icons\Resources\layonhands.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,"(Bardic Inspiration Die)",..\Icons\Resources\inspiration.png,[icon_size],[icon_size],PM
+HTMLIMAGE=,"(Channel Divinity)",..\Icons\Resources\channelDivinity.png,[icon_size],[icon_size],PM
 ;;Tags = 6
 HTMLIMAGE=,(Movement),..\Icons\Tags/movement.png,[icon_size],[icon_size],PM
 HTMLIMAGE=,(Social),..\Icons\Tags/social.png,[icon_size],[icon_size],PM
@@ -95,7 +96,7 @@ HTMLTEXT=,[si_text],[si_body_x],[si_body_y],[si_body_width],[si_body_height],#FF
 [res_body_y]=([res_header_y])+[header_height]
 [res_body_width]=[header_width]
 [res_body_height]=[size_y]-([res_body_y])-[padding]
-[res_text]="(Hit Point Dice) Hit Dice<br>(Lay On Hands Healing Pool) Healing Pool<br>(Bardic Inspiration Die) Bardic Insp."
+[res_text]="(Hit Point Dice) Hit Dice<br>(Lay On Hands Healing Pool) Healing Pool<br>(Bardic Inspiration Die) Bardic Insp.<br>(Channel Divinity) Channel Div."
 RECTANGLE=,[res_header_x]-[padding],[res_header_y]-[section_clearance],[header_width]+[padding],[res_body_height]+[header_height]+[section_clearance]+[padding],#000000,EMPTY,[border_thickness]
 HTMLTEXT=,"Resources",[res_header_x],[res_header_y],[header_width],[header_height],#FFFFFF,0,EBMF,100,headers
 HTMLTEXT=,[res_text],[res_body_x],[res_body_y],[res_body_width],[res_body_height],#FFFFFF,0,BEFM,100,icons

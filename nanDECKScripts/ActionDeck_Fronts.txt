@@ -27,7 +27,7 @@ HTMLLANG=en
 [section_icon_size]=5
 
 ;Fonts
-HTMLFONT=name,Arial,32,RA,#000000,CENTER
+HTMLFONT=name,Arial,32,RAD,#000000,CENTER
 HTMLFONT=description,Arial,10,RHD,#000000,JUSTIFY
 HTMLFONT=section,Arial,15,RH,#000000,LEFT
 HTMLFONT=damage,Arial,15,RH,#000000,RIGHT
@@ -42,6 +42,7 @@ ICON=,"Long Rest",..\Icons\LimitedUses\longrest.png
 ICON=,"Hit Point Dice",..\Icons\Resources\hitpointdice.png
 ICON=,"Lay On Hands Healing Pool",..\Icons\Resources\layonhands.png
 ICON=,"Inspiration Die",..\Icons\Resources\inspiration.png
+ICON=,"Channel Divinity",..\Icons\Resources\channelDivinity.png
 HTMLIMAGE=,(Blank),..\Icons\blank.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(TickBox),..\Icons\tickbox.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(Movement),..\Icons\Tags\movement.png,[footer_icon_size],[footer_icon_size],PM
