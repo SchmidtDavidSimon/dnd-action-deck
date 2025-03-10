@@ -23,7 +23,7 @@ HTMLLANG=en
 [section_size]=7
 [text_padding]=0.5
 [footer_icon_size]=3
-[description_icon_size]=3
+[footer_icon_size]=3
 [section_icon_size]=5
 
 ;Fonts
@@ -79,6 +79,8 @@ HTMLIMAGE=,(Psychic),..\Icons\DamageTypes\psychic.png,[section_icon_size],[secti
 HTMLIMAGE=,(Radiant),..\Icons\DamageTypes\radiant.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(Slashing),..\Icons\DamageTypes\slashing.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(Thunder),..\Icons\DamageTypes\thunder.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(ShortRest),..\Icons\LimitedUses\shortrest.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(LongRest),..\Icons\LimitedUses\longrest.png,[footer_icon_size],[footer_icon_size],PM
 
 ;Border
 [border_color]=[ACTIONTYPECOLOR]
@@ -446,11 +448,19 @@ ELSEIF=[section_count]<=4
 ENDIF
 
 IF=[upcastable]=1
-HTMLTEXT=,[UPCASTBONUS],[upcast_x],[upcast_y],[upcast_width],[upcast_height],#FFFFFF,0,BFEM,100,description
+    HTMLTEXT=,[UPCASTBONUS],[upcast_x],[upcast_y],[upcast_width],[upcast_height],#FFFFFF,0,BFEM,100,description
 ENDIF
+[has_limited_uses]=JOINIF(,[LIMITEDUSES],=,"",0,1)
+[has_upgrade_criteria]=JOINIF(,[UPGRADECRITERIA],=,"",0,1)
 [limited_use_boxes]=REPEAT("TickBox",[AMOUNT])
 [limited_uses]=JOIN([LIMITEDUSES],[limited_use_boxes])
+[limted_uses_with_upgrade]=JOIN("(", [LIMITEDUSES],")")
+[limted_uses_with_upgrade]=REPLACE([limted_uses_with_upgrade], " ", "")
+IF=([has_limited_uses]=1)_AND_([has_upgrade_criteria]=0)
 ICONS=,[limited_uses],[footer_x],[footer_y],[footer_width],[footer_height],[footer_icon_size],[footer_icon_size],0,XPNL,LEFT,CENTER
+ELSEIF=([has_limited_uses]=1)_AND_([has_upgrade_criteria]=1)
+HTMLTEXT=,[limted_uses_with_upgrade],[footer_x],[footer_y],[footer_width],[footer_height],#FFFFFF,0,BFEM,100
+ENDIF
 HTMLTEXT=,[footer_text],[footer_x],[footer_y],[footer_width],[footer_height],#FFFFFF,0,BFEM,100,footer
 
 [range]=LABELRANGE([NAME],<><i>Cover</i>)
