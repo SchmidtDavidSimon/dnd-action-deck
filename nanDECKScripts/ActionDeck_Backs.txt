@@ -28,7 +28,8 @@ RECTANGLE=,0,0,100%,100%,[ACTIONTYPECOLOR]
 [source_text]=JOIN([SOURCEBOOK]," ",[PAGE])
 [source_text]=REPLACE([source_text],"Players Handbook","PHB")
 [source_text]=REPLACE([source_text],"Tashas Cauldron of Everything","TCE")
-[source_text]=REPLACE([source_text],"Xanathar's Guide to Everything","XGtE")
+[source_text]=REPLACE([source_text],"Xanathar's Guide to Everything","XGE")
+[source_text]=REPLACE([source_text],"Monsters of the Multiverse","MMM")
 HTMLTEXT=,[source_text],[source_x],[source_y],[source_width],[source_height],#FFFFFF,0,EBMF,100,source
 
 [range]=LABELRANGE([NAME],<><i>Cover</i>)
