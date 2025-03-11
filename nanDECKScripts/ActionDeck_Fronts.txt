@@ -23,17 +23,26 @@ HTMLLANG=en
 [section_size]=7
 [text_padding]=0.5
 [footer_icon_size]=3
-[footer_icon_size]=3
 [section_icon_size]=5
+[tick_box_padding]=0.5
+[tick_box_distance]=3.25
 
 ;Fonts
 HTMLFONT=name,Arial,32,RAD,#000000,CENTER
+HTMLMARGINS=name,0,0,0,0,CENTER
 HTMLFONT=description,Arial,10,RHD,#000000,JUSTIFY
-HTMLFONT=section,Arial,15,RH,#000000,LEFT
-HTMLFONT=damage,Arial,15,RH,#000000,RIGHT
+HTMLFONT=section,Arial,15,R,#000000,LEFT
+HTMLMARGINS=section,0,0,0,0,CENTER
+HTMLFONT=damage,Arial,15,R,#000000,RIGHT
+HTMLMARGINS=damage,0,0,0,0,CENTER
 HTMLFONT=footer,Arial,8,R,#FFFFFF,RIGHT
+HTMLMARGINS=footer,0,0,0,0,CENTER
 HTMLFONT=materials,Arial,8,RDZ,#FFFFFF,LEFT,0,0,0,,,0,0,,0.25
-
+HTMLMARGINS=materials,0,0,0,0,CENTER
+HTMLFONT=tickBox,Arial,5,DRZ,#D3D3D3,CENTER
+HTMLMARGINS=tickBox,0,0,0,0,CENTER
+HTMLFONT=upgradeBase,Arial,6,DRZ,#D3D3D3,LEFT
+HTMLMARGINS=upgradeBase,0,0,0,0,CENTER
 ;Icons
 ICON=,Blank,..\Icons\blank.png
 ICON=,TickBox,..\Icons\tickbox.png
@@ -79,8 +88,6 @@ HTMLIMAGE=,(Psychic),..\Icons\DamageTypes\psychic.png,[section_icon_size],[secti
 HTMLIMAGE=,(Radiant),..\Icons\DamageTypes\radiant.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(Slashing),..\Icons\DamageTypes\slashing.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=,(Thunder),..\Icons\DamageTypes\thunder.png,[section_icon_size],[section_icon_size],PM
-HTMLIMAGE=,(ShortRest),..\Icons\LimitedUses\shortrest.png,[section_icon_size],[section_icon_size],PM
-HTMLIMAGE=,(LongRest),..\Icons\LimitedUses\longrest.png,[footer_icon_size],[footer_icon_size],PM
 
 ;Border
 [border_color]=[ACTIONTYPECOLOR]
@@ -454,12 +461,14 @@ ENDIF
 [has_upgrade_criteria]=JOINIF(,[UPGRADECRITERIA],=,"",0,1)
 [limited_use_boxes]=REPEAT("TickBox",[AMOUNT])
 [limited_uses]=JOIN([LIMITEDUSES],[limited_use_boxes])
-[limted_uses_with_upgrade]=JOIN("(", [LIMITEDUSES],")")
-[limted_uses_with_upgrade]=REPLACE([limted_uses_with_upgrade], " ", "")
 IF=([has_limited_uses]=1)_AND_([has_upgrade_criteria]=0)
 ICONS=,[limited_uses],[footer_x],[footer_y],[footer_width],[footer_height],[footer_icon_size],[footer_icon_size],0,XPNL,LEFT,CENTER
 ELSEIF=([has_limited_uses]=1)_AND_([has_upgrade_criteria]=1)
-HTMLTEXT=,[limted_uses_with_upgrade],[footer_x],[footer_y],[footer_width],[footer_height],#FFFFFF,0,BFEM,100
+ICONS=,[LIMITEDUSES],[footer_x],[footer_y],[footer_width],[footer_height],[footer_icon_size],[footer_icon_size],0,XPNL,LEFT,CENTER
+FOR=I,1,[AMOUNT]
+HTMLTEXT=,TOKENIZESEQ([UPGRADECRITERIA], I, #),[footer_x] + (I * [tick_box_distance]) ,[footer_y] + [tick_box_padding],[footer_icon_size],[footer_icon_size],#FFFFFF,0,E,100,tickBox
+NEXT
+HTMLTEXT=,[UPGRADEBASE],[footer_x] + (I * [tick_box_distance]) ,[footer_y] + [tick_box_padding],[footer_width],[footer_icon_size],#FFFFFF,0,EB,100,upgradeBase
 ENDIF
 HTMLTEXT=,[footer_text],[footer_x],[footer_y],[footer_width],[footer_height],#FFFFFF,0,BFEM,100,footer
 
