@@ -1,0 +1,1 @@
+curl -L -o ..\settings.txt "https://docs.google.com/spreadsheets/d/1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk/export?gid=0&range=BF5&exportFormat=csv"
