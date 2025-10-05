@@ -1,0 +1,92 @@
+LINKMULTI=Count
+Link="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
+
+;;;;;;;;;;SETTINGS;;;;;;;;;;
+
+;nanDeck settings
+UNIT=MM
+PAGE=210,297,PORTRAIT,HV
+DPI=300
+CARDSIZE=63,94.5
+BORDER=RECTANGLE,#000000,0.75
+HTMLLANG=en
+special=£
+
+;custom settings
+[page_scheme]=FILEREAD(..\settings.txt)
+[size_x]=63
+[size_y]=94.5
+
+;;;;;;;;;;SETUP;;;;;;;;;;
+
+;top sections
+[has_rolling_method]=[ROLLINGMETHODS]<>""
+[has_range]=[RANGETYPES]<>""
+[has_spell_info]=[LEVEL]<>""
+[has_resource]=[RESOURCE]<>""
+
+counter=,A,0
+IF=[has_rolling_method]
+counter=,A,A+1
+ENDIF
+IF=[has_range]
+counter=,A,A+1
+ENDIF
+IF=[has_spell_info]
+counter=,A,A+1
+ENDIF
+IF=[has_resource]
+counter=,A,A+1
+ENDIF
+[number_of_top_sections]={A}
+
+;divider bars
+[has_required_material]=[REQM]<>""
+[has_casting_time]=[CASTINGTIME]<>""
+
+;bottom section
+[has_upcast_info]=[UPCASTBONUS]<>""
+
+;footer bar
+[has_limited_uses]=[LU_REFRESHRATE]<>""
+
+[number_of_card_backs]=REPLACE([CB_AMOUNTS],"#","+")
+[needs_card_backs]=[number_of_card_backs]>0
+[is_first_count]={£}=1
+[print_card_backs]=([needs_card_backs])_AND_([is_first_count])
+
+IF=[is_first_count]
+    HTMLTEXT=,[NAME],0,0,100%,100%
+ENDIF
+
+;;;;;;;;;;LAYOUT;;;;;;;;;;
+
+;color
+[border_color]=[ACTIONTYPECOLOR]
+
+;variables
+[outer_border_thickness]=2
+[footer_box_thickness]=5
+[inner_border_thickness]=2
+[header_size]=10
+[header_box_thickness]=0.5
+
+;calculations
+[footer_box_y]=[size_y]-[footer_box_thickness]
+[inner_border_height]=[size_y]-[footer_box_thickness]+[inner_border_thickness]/2
+[header_box_height]=[header_size]+[header_box_thickness]
+
+;;;Directives;;;
+;border
+RECTANGLE=,0,0,100%,100%,[border_color],EMPTY,[outer_border_thickness]
+RECTANGLE=,0,[footer_box_y],100%,[footer_box_thickness],[border_color]
+ROUNDRECT=,0%,0%,100%,[inner_border_height],[border_color],EMPTY,[inner_border_thickness]
+
+;fixes for border rect discrepencies
+RECTANGLE=,0,0,2,2,[border_color]
+RECTANGLE=,[size_x]-2,0,2,2,[border_color]
+RECTANGLE=,0,[footer_box_y]-2,2,2,[border_color]
+RECTANGLE=,[size_x]-2,[footer_box_y]-2,2,2,[border_color]
+
+;sections;
+RECTANGLE=,0,0,100%,[header_box_height],[border_color],EMPTY,[header_box_thickness]
