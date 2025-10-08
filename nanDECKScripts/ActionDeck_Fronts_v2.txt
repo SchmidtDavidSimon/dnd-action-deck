@@ -59,9 +59,8 @@ ENDIF
 [main_section_matrix]=JOINIF(,[CB_AMOUNTS],<>,"",1,0)
 [main_section_matrix]=JOINIF([main_section_matrix],[number_of_card_backs],=,0,1,0)
 [main_section_matrix]=JOINIF([main_section_matrix],[ITERATION],=,1,1,0)
-[run_main_section]=JOINIF(,[main_section_matrix],=,111,OFF,ON)
 
-SECTION=MAIN,ON
+
 ;;;;;;;;;;LAYOUT;;;;;;;;;;
 
 ;color
@@ -111,18 +110,18 @@ ELSE
 ENDIF
 
 ;divider bars
-SET=,required_material_y,({top_section_3_y?1})+({top_section_3_height?1})
+SET=,divider_1_y,({top_section_3_y?1})+({top_section_3_height?1})
 IF=[REQM]<>""
-    SET=,required_material_height,[divider_box_size]
+    SET=,divider_1_y,[divider_box_size]
 ELSE
-    SET=,required_material_height,0
+    SET=,divider_1_height,0
 ENDIF
 
-SET=,casting_time_y,({required_material_y?1})+({required_material_height?1})
+SET=,divider_1_height,({divider_1_y?1})+({divider_1_height?1})
 IF=[CASTINGTIME]<>""
-    SET=,casting_time_height,[divider_box_size]
+    SET=,divider_2_y,[divider_box_size]
 ELSE
-    SET=,casting_time_height,0
+    SET=,divider_2_height,0
 ENDIF
 
 ;bottom section
@@ -153,8 +152,8 @@ RECTANGLE=,0,{top_section_3_y?1},{top_section_3_width?1},{top_section_3_height?1
 RECTANGLE=,{top_section_3_width?1},{top_section_3_y?1},50%,{top_section_3_height?1},[border_color],EMPTY,[section_box_thickness]
 
 ;divider bars
-RECTANGLE=,0,{required_material_y?1},100%,{required_material_height?1},[border_color]
-RECTANGLE=,0,{casting_time_y?1},100%,{casting_time_height?1},[border_color]
+RECTANGLE=,0,{divider_1_y?1},100%,{divider_1_height?1},[border_color]
+RECTANGLE=,0,{divider_2_y?1},100%,{divider_2_height?1},[border_color]
 
 ;bottom section
 RECTANGLE=,0,[bottom_section_1_y],100%,[bottom_section_1_height],[border_color],EMPTY,[section_box_thickness]
@@ -162,6 +161,7 @@ RECTANGLE=,0,[bottom_section_1_y],100%,[bottom_section_1_height],[border_color],
 ;;;;;;;;;;CONTENT;;;;;;;;;;
 
 ;variables
+[test_text]="Hello World"
 [content_padding]=0.5
 [section_icon_size]=5
 [footer_icon_size]=3
@@ -170,14 +170,14 @@ RECTANGLE=,0,[bottom_section_1_y],100%,[bottom_section_1_height],[border_color],
 HTMLFONT=name,Arial,32,RAD,#000000,CENTER
 HTMLMARGINS=name,0,0,0,0,CENTER
 HTMLFONT=description,Arial,10,RHD,#000000,JUSTIFY
-HTMLFONT=section,Arial,15,R,#000000,LEFT
-HTMLMARGINS=section,0,0,0,0,CENTER
-HTMLFONT=damage,Arial,15,R,#000000,RIGHT
-HTMLMARGINS=damage,0,0,0,0,CENTER
+HTMLFONT=sectionLR,Arial,15,R,#000000,LEFT
+HTMLMARGINS=sectionLR,0,0,0,0,CENTER
+HTMLFONT=sectionRL,Arial,15,R,#000000,RIGHT
+HTMLMARGINS=sectionRL,0,0,0,0,CENTER
 HTMLFONT=footer,Arial,8,R,#FFFFFF,RIGHT
 HTMLMARGINS=footer,0,0,0,0,CENTER
-HTMLFONT=materials,Arial,8,RDZ,#FFFFFF,LEFT,0,0,0,,,0,0,,0.25
-HTMLMARGINS=materials,0,0,0,0,CENTER
+HTMLFONT=divider_bars,Arial,8,RDZ,#FFFFFF,LEFT,0,0,0,,,0,0,,0.25
+HTMLMARGINS=divider_bars,0,0,0,0,CENTER
 HTMLFONT=tickBox,Arial,5,DRZ,#D3D3D3,CENTER
 HTMLMARGINS=tickBox,0,0,0,0,CENTER
 HTMLFONT=upgradeBase,Arial,6,DRZ,#D3D3D3,LEFT
@@ -236,6 +236,7 @@ HTMLIMAGE=,(Thunder),..\Icons\DamageTypes\thunder.png,[section_icon_size],[secti
 ;header
 [c_header_width]=[size_x]-2*[content_padding]
 [c_header_height]=[header_box_height]-2*[content_padding]
+[header_content]=[NAME]
 
 ;top sections
 set=,c_top_section_1_x,[content_padding]
@@ -243,11 +244,61 @@ set=,c_top_section_1_y,({top_section_1_y?1})+[content_padding]
 set=,c_top_section_1_width,({top_section_1_width?1})-2*[content_padding]
 set=,c_top_section_1_height,({top_section_1_height?1})-2*[content_padding]
 
+set=,c_top_section_2_x,{top_section_1_width?1}+[content_padding]
+
+set=,c_top_section_3_x,[content_padding]
+set=,c_top_section_3_y,({top_section_3_y?1})+[content_padding]
+set=,c_top_section_3_width,({top_section_3_width?1})-2*[content_padding]
+set=,c_top_section_3_height,({top_section_3_height?1})-2*[content_padding]
+
+set=,c_top_section_4_x,{top_section_3_width?1}+[content_padding]
+
+[section_1_content_lr]=
+[section_1_content_rl]=
+
+[section_2_content_lr]=
+[section_2_content_rl]=
+
+[section_3_content_lr]=
+[section_3_content_rl]=
+
+[section_4_content_lr]=
+[section_4_content_rl]=
+
+;divider bars
+set=c_divider_1_x,[content_padding]
+set=c_divider_1_y,({divider_1_y?1})
+set=c_divider_1_width,[size_x]-2*[content_padding]
+set=c_divider_1_height,({divider_1_height?1})
+
+set=c_divider_2_x,[content_padding]
+set=c_divider_2_y,({divider_2_y?1})
+set=c_divider_2_width,[size_x]-2*[content_padding]
+set=c_divider_2_height,({divider_2_height?1})
+
+[divider_1_content]=[REQM]
+[divider_2_content]=[CASTINGTIME]
+
 ;;;;;Directives;;;;;
-HTMLTEXT=,[NAME],[content_padding],[content_padding],[c_header_width],[c_header_height],#FFFFFF,0,BFEM,100,name
-HTMLTEXT=,[NAME],{c_top_section_1_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,section
+;header
+HTMLTEXT=,[header_content],[content_padding],[content_padding],[c_header_width],[c_header_height],#FFFFFF,0,BFEM,100,name
 
+;top sections
+HTMLTEXT=,[section_1_content_lr],{c_top_section_1_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+HTMLTEXT=,[section_1_content_rl],{c_top_section_1_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
 
-ENDSECTION
+HTMLTEXT=,[section_2_content_lr],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+HTMLTEXT=,[section_2_content_rl],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+HTMLTEXT=,[section_3_content_lr],{c_top_section_3_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
+HTMLTEXT=,[section_3_content_rl],{c_top_section_3_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+HTMLTEXT=,[section_4_content_lr],{c_top_section_4_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
+HTMLTEXT=,[section_4_content_rl],{c_top_section_4_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+;divider bars
+;HTMLTEXT=,[divider_1_content],{c_divider_1_x?1},{c_divider_1_y?1},{c_divider_1_width?1},{c_divider_1_height?1},#FFFFFF,0,BFEM,100,divider_bars
+;HTMLTEXT=,[divider_2_content],{c_divider_2_x?1},{c_divider_2_y?1},{c_divider_2_width?1},{c_divider_2_height?1},#FFFFFF,0,BFEM,100,divider_bars
+
 ;;;;;;;;;;DEBUG;;;;;;;;;;
-;HTMLTEXT=,[casting_time_y],0,0,100%,10,#FF00FF
+;HTMLTEXT=,[divider_2_y],0,0,100%,10,#FF00FF
