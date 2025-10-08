@@ -1,4 +1,5 @@
-LINKMULTI=Count
+LINKMULTI=COUNT
+LINKMULDIS=ITERATION
 Link="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
 
 ;;;;;;;;;;SETTINGS;;;;;;;;;;
@@ -10,7 +11,6 @@ DPI=300
 CARDSIZE=63,94.5
 BORDER=RECTANGLE,#000000,0.75
 HTMLLANG=en
-special=£
 
 ;custom settings
 [page_scheme]=FILEREAD(..\settings.txt)
@@ -50,15 +50,18 @@ ENDIF
 ;footer bar
 [has_limited_uses]=[LU_REFRESHRATE]<>""
 
+;card backs
 [number_of_card_backs]=REPLACE([CB_AMOUNTS],"#","+")
 [needs_card_backs]=[number_of_card_backs]>0
-[is_first_count]={£}=1
-[print_card_backs]=([needs_card_backs])_AND_([is_first_count])
+[is_first_iteration]=[ITERATION]=1
+[print_card_backs]=([needs_card_backs])_AND_([is_first_iteration])
 
-IF=[is_first_count]
-    HTMLTEXT=,[NAME],0,0,100%,100%
-ENDIF
+[main_section_matrix]=JOINIF(,[CB_AMOUNTS],<>,"",1,0)
+[main_section_matrix]=JOINIF([main_section_matrix],[number_of_card_backs],=,0,1,0)
+[main_section_matrix]=JOINIF([main_section_matrix],[ITERATION],=,1,1,0)
+[run_main_section]=JOINIF(,[main_section_matrix],=,111,OFF,ON)
 
+SECTION=MAIN,ON
 ;;;;;;;;;;LAYOUT;;;;;;;;;;
 
 ;color
@@ -69,15 +72,66 @@ ENDIF
 [footer_box_thickness]=5
 [inner_border_thickness]=2
 [header_size]=10
-[header_box_thickness]=0.5
+[section_size]=7
+[section_box_thickness]=0.5
+[divider_box_size]=2.5
 
-;calculations
+;;;;;Calculations;;;;;
+;border
 [footer_box_y]=[size_y]-[footer_box_thickness]
 [inner_border_height]=[size_y]-[footer_box_thickness]+[inner_border_thickness]/2
-[header_box_height]=[header_size]+[header_box_thickness]
 
-;;;Directives;;;
-;border
+;;;sections;;;
+;header
+[header_box_height]=[header_size]+[section_box_thickness]
+
+;top sections
+SET=,top_section_1_y,[header_box_height]
+IF=[number_of_top_sections]>0
+    SET=,top_section_1_height,([section_box_thickness])+([section_size])
+ELSE
+    SET=,top_section_1_height,0
+ENDIF
+IF=[number_of_top_sections]>1
+    SET=,top_section_1_width,50%
+ELSE
+    SET=,top_section_1_width,100%
+ENDIF
+
+SET=,top_section_3_y,({top_section_1_y?1})+({top_section_1_height?1})
+IF=[number_of_top_sections]>0
+    SET=,top_section_3_height,([section_box_thickness])+([section_size])
+ELSE
+    SET=,top_section_3_height,0
+ENDIF
+IF=[number_of_top_sections]>1
+    SET=,top_section_3_width,50%
+ELSE
+    SET=,top_section_3_width,100%
+ENDIF
+
+;divider bars
+SET=,required_material_y,({top_section_3_y?1})+({top_section_3_height?1})
+IF=[REQM]<>""
+    SET=,required_material_height,[divider_box_size]
+ELSE
+    SET=,required_material_height,0
+ENDIF
+
+SET=,casting_time_y,({required_material_y?1})+({required_material_height?1})
+IF=[CASTINGTIME]<>""
+    SET=,casting_time_height,[divider_box_size]
+ELSE
+    SET=,casting_time_height,0
+ENDIF
+
+;bottom section
+[bottom_section_1_y]=JOINIF(,[UPCASTBONUS],<>,"",([footer_box_y])-[section_size],[footer_box_y])
+[bottom_section_1_height]=JOINIF(,[UPCASTBONUS],<>,"",[section_size],0)
+
+;;;;;Directives;;;;;
+;;;border;;;
+;standard
 RECTANGLE=,0,0,100%,100%,[border_color],EMPTY,[outer_border_thickness]
 RECTANGLE=,0,[footer_box_y],100%,[footer_box_thickness],[border_color]
 ROUNDRECT=,0%,0%,100%,[inner_border_height],[border_color],EMPTY,[inner_border_thickness]
@@ -88,5 +142,112 @@ RECTANGLE=,[size_x]-2,0,2,2,[border_color]
 RECTANGLE=,0,[footer_box_y]-2,2,2,[border_color]
 RECTANGLE=,[size_x]-2,[footer_box_y]-2,2,2,[border_color]
 
-;sections;
-RECTANGLE=,0,0,100%,[header_box_height],[border_color],EMPTY,[header_box_thickness]
+;;;sections;;;
+;header
+RECTANGLE=,0,0,100%,[header_box_height],[border_color],EMPTY,[section_box_thickness]
+
+;top sections
+RECTANGLE=,0,{top_section_1_y?1},{top_section_1_width?1},{top_section_1_height?1},[border_color],EMPTY,[section_box_thickness]
+RECTANGLE=,{top_section_1_width?1},{top_section_1_y?1},50%,{top_section_1_height?1},[border_color],EMPTY,[section_box_thickness]
+RECTANGLE=,0,{top_section_3_y?1},{top_section_3_width?1},{top_section_3_height?1},[border_color],EMPTY,[section_box_thickness]
+RECTANGLE=,{top_section_3_width?1},{top_section_3_y?1},50%,{top_section_3_height?1},[border_color],EMPTY,[section_box_thickness]
+
+;divider bars
+RECTANGLE=,0,{required_material_y?1},100%,{required_material_height?1},[border_color]
+RECTANGLE=,0,{casting_time_y?1},100%,{casting_time_height?1},[border_color]
+
+;bottom section
+RECTANGLE=,0,[bottom_section_1_y],100%,[bottom_section_1_height],[border_color],EMPTY,[section_box_thickness]
+
+;;;;;;;;;;CONTENT;;;;;;;;;;
+
+;variables
+[content_padding]=0.5
+[section_icon_size]=5
+[footer_icon_size]=3
+
+;fonts
+HTMLFONT=name,Arial,32,RAD,#000000,CENTER
+HTMLMARGINS=name,0,0,0,0,CENTER
+HTMLFONT=description,Arial,10,RHD,#000000,JUSTIFY
+HTMLFONT=section,Arial,15,R,#000000,LEFT
+HTMLMARGINS=section,0,0,0,0,CENTER
+HTMLFONT=damage,Arial,15,R,#000000,RIGHT
+HTMLMARGINS=damage,0,0,0,0,CENTER
+HTMLFONT=footer,Arial,8,R,#FFFFFF,RIGHT
+HTMLMARGINS=footer,0,0,0,0,CENTER
+HTMLFONT=materials,Arial,8,RDZ,#FFFFFF,LEFT,0,0,0,,,0,0,,0.25
+HTMLMARGINS=materials,0,0,0,0,CENTER
+HTMLFONT=tickBox,Arial,5,DRZ,#D3D3D3,CENTER
+HTMLMARGINS=tickBox,0,0,0,0,CENTER
+HTMLFONT=upgradeBase,Arial,6,DRZ,#D3D3D3,LEFT
+HTMLMARGINS=upgradeBase,0,0,0,0,CENTER
+
+;;;;;IMPORTS;;;;;
+;icons
+ICON=,Blank,..\Icons\blank.png
+ICON=,TickBox,..\Icons\tickbox.png
+ICON=,"Short Rest",..\Icons\LimitedUses\shortrest.png
+ICON=,"Long Rest",..\Icons\LimitedUses\longrest.png
+ICON=,"Hit Point Dice",..\Icons\Resources\hitpointdice.png
+ICON=,"Lay On Hands Healing Pool",..\Icons\Resources\layonhands.png
+ICON=,"Inspiration Die",..\Icons\Resources\inspiration.png
+ICON=,"Channel Divinity",..\Icons\Resources\channelDivinity.png
+
+;images
+HTMLIMAGE=,(Blank),..\Icons\blank.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(TickBox),..\Icons\tickbox.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Movement),..\Icons\Tags\movement.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Social),..\Icons\Tags\social.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Buff),..\Icons\Tags\buff.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Debuff),..\Icons\Tags\debuff.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Offensive),..\Icons\Tags\offensive.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Defensive),..\Icons\Tags\defensive.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Heal),..\Icons\Tags\heal.png,[footer_icon_size],[footer_icon_size],PM
+HTMLIMAGE=,(Melee),..\Icons\Range\melee.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Ranged),..\Icons\Range\ranged.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Self),..\Icons\Range\self.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Touch),..\Icons\Range\touch.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Cone),..\Icons\Aoe\cone.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Cube),..\Icons\Aoe\cube.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Cylinder),..\Icons\Aoe\cylinder.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Emanation),..\Icons\Aoe\emanation.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Line),..\Icons\Aoe\line.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Sphere),..\Icons\Aoe\sphere.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Concentration),..\Icons\SpellInfo\concentration.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Ritual),..\Icons\SpellInfo\ritual.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Save),..\Icons\AttackMethod\save.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Spell),..\Icons\AttackMethod\spellattack.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Attack),..\Icons\AttackMethod\attack.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Acid),..\Icons\DamageTypes\acid.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Bludgeoning),..\Icons\DamageTypes\bludgeoning.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Cold),..\Icons\DamageTypes\cold.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Fire),..\Icons\DamageTypes\fire.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Force),..\Icons\DamageTypes\force.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Lightning),..\Icons\DamageTypes\lightning.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Necrotic),..\Icons\DamageTypes\necrotic.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Piercing),..\Icons\DamageTypes\piercing.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Psychic),..\Icons\DamageTypes\psychic.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Radiant),..\Icons\DamageTypes\radiant.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Slashing),..\Icons\DamageTypes\slashing.png,[section_icon_size],[section_icon_size],PM
+HTMLIMAGE=,(Thunder),..\Icons\DamageTypes\thunder.png,[section_icon_size],[section_icon_size],PM
+
+;;;;;Calculations;;;;;
+;header
+[c_header_width]=[size_x]-2*[content_padding]
+[c_header_height]=[header_box_height]-2*[content_padding]
+
+;top sections
+set=,c_top_section_1_x,[content_padding]
+set=,c_top_section_1_y,({top_section_1_y?1})+[content_padding]
+set=,c_top_section_1_width,({top_section_1_width?1})-2*[content_padding]
+set=,c_top_section_1_height,({top_section_1_height?1})-2*[content_padding]
+
+;;;;;Directives;;;;;
+HTMLTEXT=,[NAME],[content_padding],[content_padding],[c_header_width],[c_header_height],#FFFFFF,0,BFEM,100,name
+HTMLTEXT=,[NAME],{c_top_section_1_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,section
+
+
+ENDSECTION
+;;;;;;;;;;DEBUG;;;;;;;;;;
+;HTMLTEXT=,[casting_time_y],0,0,100%,10,#FF00FF
