@@ -13,37 +13,36 @@ BORDER=RECTANGLE,#000000,0.75
 HTMLLANG=en
 
 ;custom settings
-[page_scheme]=FILEREAD(..\settings.txt)
+[page_scheme]=FILEREAD(..\BuildPipeline\pageScheme.txt)
 [size_x]=63
 [size_y]=94.5
 
 ;;;;;;;;;;SETUP;;;;;;;;;;
 
 ;top sections
-[has_rolling_method]=[ROLLINGMETHODS]<>""
-[has_range]=[RANGETYPES]<>""
-[has_spell_info]=[LEVEL]<>""
-[has_resource]=[RESOURCE]<>""
+[section_matrix]=JOINIF(,[ROLLINGMETHODS],<>,"",1,0)
+[section_matrix]=JOINIF([section_matrix],[RANGETYPES],<>,"",2,0)
+[section_matrix]=JOINIF([section_matrix],[LEVEL],<>,"",3,0)
+[section_matrix]=JOINIF([section_matrix],[RESOURCE],<>,"",3,0)
 
 counter=,A,0
-IF=[has_rolling_method]
+IF=1@[section_matrix]
 counter=,A,A+1
 ENDIF
-IF=[has_range]
+IF=2@[section_matrix]
 counter=,A,A+1
 ENDIF
-IF=[has_spell_info]
+IF=3@[section_matrix]
 counter=,A,A+1
 ENDIF
-IF=[has_resource]
+IF=4@[section_matrix]
 counter=,A,A+1
 ENDIF
 [number_of_top_sections]={A}
 
 ;card backs
-[step1]=REPLACE([CB_AMOUNTS],"#","+")
-[step2]=JOIN("{",[step1],"}")
-[number_of_card_backs]=EVAL([step2])
+[addition]=REPLACE([CB_AMOUNTS],"#","+")
+[number_of_card_backs]=JOINIF(,[CB_AMOUNTS],<>,"",JOIN("{",[addition],"}"),"")
 [needs_card_backs]=[number_of_card_backs]>0
 [is_first_iteration]=[ITERATION]=1
 [print_card_backs]=([needs_card_backs])_AND_([is_first_iteration])
@@ -62,26 +61,31 @@ ENDIF
 
 [matrix]=JOINIF(,[ID],=,"<i>Cover</i>",[used_check],"")
 
-;card should be generated for fronts if...
+;card not should be generated for fronts if...
 ;it has backs assigned AND it's the first iteration
 [matrix]=JOINIF([matrix],[CB_AMOUNTS],<>,"",2,0)
 [matrix]=JOINIF([matrix],[ITERATION],=,1,2,0)
+[matrix]=JOIN([matrix],"#")
 
-;card should be generated for backs if...
+;card not should be generated for backs if...
 ;it has no backs assigned
 [matrix]=JOINIF([matrix],[CB_AMOUNTS],=,"",33,00)
+[matrix]=JOIN([matrix],"#")
 ;OR it has backs assigned AND the number of backs needed is 0
 [matrix]=JOINIF([matrix],[CB_AMOUNTS],<>,"",3,0)
 [matrix]=JOINIF([matrix],[number_of_card_backs],=,0,3,0)
+[matrix]=JOIN([matrix],"#")
 ;OR it has backs assigned AND it's not the first iteration
 [matrix]=JOINIF([matrix],[CB_AMOUNTS],<>,"",3,0)
 [matrix]=JOINIF([matrix],[ITERATION],>,1,3,0)
+[matrix]=JOIN([matrix],"#")
 
-;card should be generated for both if...
+;card not should be generated for both if...
 ;it is a generated front
-[matrix]=JOINIF([matrix],[matrix],@,22,11,00)
+[matrix]=JOINIF([matrix],[matrix],@,22,1,0)
 ;OR it is a generated back
-[matrix]=JOINIF([matrix],[matrix],@,33,11,00)
+[matrix]=JOINIF([matrix],[matrix],@,33,1,0)
+[matrix]=JOIN([matrix],"#")
 
 [all]=LABELRANGE([matrix],JOIN("#",[used_check]))
 
@@ -226,24 +230,11 @@ ICON=[long_rest_range],"Long Rest",..\Icons\LimitedUses\longrest.png
 ICON=[hpd_range],"Hit Point Dice",..\Icons\Resources\hitpointdice.png
 [lohhp_range]=LABELRANGE([RESOURCE],@Lay On Hands Healing Pool)
 ICON=[lohhp_range],"Lay On Hands Healing Pool",..\Icons\Resources\layonhands.png
-[id_range]=LABELRANGE([RESOURCE],@Inspiration Die)
-ICON=[id_range],"Inspiration Die",..\Icons\Resources\inspiration.png
+[id_range]=LABELRANGE([RESOURCE],@Bardic Inspiration Die)
+ICON=[id_range],"Bardic Inspiration Die",..\Icons\Resources\inspiration.png
 [cd_range]=LABELRANGE([RESOURCE],@Channel Divinity)
 ICON=[cd_range],"Channel Divinity",..\Icons\Resources\channelDivinity.png
-[movment_range]=LABELRANGE([TAGS],@Movement)
-ICON=[movment_range],Movement,..\Icons\Tags\movement.png
-[social_range]=LABELRANGE([TAGS],@Social)
-ICON=[social_range],Social,..\Icons\Tags\social.png
-[buff_range]=LABELRANGE([TAGS],@Buff)
-ICON=[buff_range],Buff,..\Icons\Tags\buff.png
-[debuff_range]=LABELRANGE([TAGS],@Debuff)
-ICON=[debuff_range],Debuff,..\Icons\Tags\debuff.png
-[offensive_range]=LABELRANGE([TAGS],@Offensive)
-ICON=[offensive_range],Offensive,..\Icons\Tags\offensive.png
-[defensive_range]=LABELRANGE([TAGS],@Defensive)
-ICON=[defensive_range],Defensive,..\Icons\Tags\defensive.png
-[heal_range]=LABELRANGE([TAGS],@Heal)
-ICON=[heal_range],Heal,..\Icons\Tags\heal.png
+
 
 ;images
 HTMLIMAGE=[all],(Blank),..\Icons\blank.png,[section_icon_size],[section_icon_size],PM
@@ -275,6 +266,20 @@ HTMLIMAGE=[all],(Psychic),..\Icons\DamageTypes\psychic.png,[section_icon_size],[
 HTMLIMAGE=[all],(Radiant),..\Icons\DamageTypes\radiant.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=[all],(Slashing),..\Icons\DamageTypes\slashing.png,[section_icon_size],[section_icon_size],PM
 HTMLIMAGE=[all],(Thunder),..\Icons\DamageTypes\thunder.png,[section_icon_size],[section_icon_size],PM
+[movment_range]=LABELRANGE([TAGS],@Movement)
+HTMLIMAGE=[movment_range],(Movement),..\Icons\Tags\movement.png,[footer_icon_size],[footer_icon_size],PM
+[social_range]=LABELRANGE([TAGS],@Social)
+HTMLIMAGE=[social_range],(Social),..\Icons\Tags\social.png,[footer_icon_size],[footer_icon_size],PM
+[buff_range]=LABELRANGE([TAGS],@Buff)
+HTMLIMAGE=[buff_range],(Buff),..\Icons\Tags\buff.png,[footer_icon_size],[footer_icon_size],PM
+[debuff_range]=LABELRANGE([TAGS],@Debuff)
+HTMLIMAGE=[debuff_range],(Debuff),..\Icons\Tags\debuff.png,[footer_icon_size],[footer_icon_size],PM
+[offensive_range]=LABELRANGE([TAGS],@Offensive)
+HTMLIMAGE=[offensive_range],(Offensive),..\Icons\Tags\offensive.png,[footer_icon_size],[footer_icon_size],PM
+[defensive_range]=LABELRANGE([TAGS],@Defensive)
+HTMLIMAGE=[defensive_range],(Defensive),..\Icons\Tags\defensive.png,[footer_icon_size],[footer_icon_size],PM
+[heal_range]=LABELRANGE([TAGS],@Heal)
+HTMLIMAGE=[heal_range],(Heal),..\Icons\Tags\heal.png,[footer_icon_size],[footer_icon_size],PM
 
 ;;;;;Calculations;;;;;
 ;header
@@ -284,7 +289,7 @@ HTMLIMAGE=[all],(Thunder),..\Icons\DamageTypes\thunder.png,[section_icon_size],[
 ;top sections
 set=[all],c_top_section_1_y,({top_section_1_y?1})+[content_padding]
 IF={top_section_1_width?1}=50%
-    set=[all],c_top_section_1_width,({top_section_1_width?1})-[off_the_border]-[content_padding]
+    set=[all],c_top_section_1_width,({top_section_1_width?1})-[off_the_border]-[content_padding]-[section_box_thickness]
 ELSE
     set=[all],c_top_section_1_width,({top_section_1_width?1})-[border_thickness]
 ENDIF
@@ -294,7 +299,7 @@ set=[all],c_top_section_2_x,{top_section_1_width?1}+[content_padding]
 
 set=[all],c_top_section_3_y,({top_section_3_y?1})+[content_padding]
 IF={top_section_3_width?1}=50%
-    set=[all],c_top_section_3_width,({top_section_3_width?1})-[off_the_border]-[content_padding]
+    set=[all],c_top_section_3_width,({top_section_3_width?1})-[off_the_border]-[content_padding]-[section_box_thickness]
 ELSE
     set=[all],c_top_section_3_width,({top_section_3_width?1})-[border_thickness]
 ENDIF
@@ -302,17 +307,82 @@ set=[all],c_top_section_3_height,({top_section_3_height?1})-2*[content_padding]
 
 set=[all],c_top_section_4_x,{top_section_3_width?1}+[content_padding]
 
-[section_1_content_lr]=
-[section_1_content_rl]=
+;1: Attck check
+[attack_method_matrix]=JOINIF(,[ROLLINGMETHODS],@,"Attack",1,0)
+;2: Spell attack check
+[attack_method_matrix]=JOINIF([attack_method_matrix],[ROLLINGMETHODS],@,"SpellAttck",2,0)
+;3: Save
+[attack_method_matrix]=JOINIF([attack_method_matrix],[ROLLINGMETHODS],@,"Save",3,0)
+;4: Gen Attack and Save
+[attack_method_matrix]=JOINIF([attack_method_matrix],[attack_method_matrix],@,103,4,0)
+[attack_method_matrix]=JOINIF([attack_method_matrix],[attack_method_matrix],@,123,4,0)
+[attack_method_matrix]=JOINIF([attack_method_matrix],[attack_method_matrix],@,023,4,0)
+;5: Only Save
+[attack_method_matrix]=JOINIF([attack_method_matrix],[attack_method_matrix],@,003,5,0)
+;6: No Save dmg
+[attack_method_matrix]=JOINIF([attack_method_matrix],[SAVEDMG],=,"",6,0)
+;7: Only Save and no dmg
+[attack_method_matrix]=JOINIF([attack_method_matrix],[attack_method_matrix],@,56,7,0)
 
-[section_2_content_lr]=
-[section_2_content_rl]=
+;1: Has required material
+[spell_info_matrix]=JOINIF(,[REQM],<>,1,1,0)
+;2: Is concentration
+[spell_info_matrix]=JOINIF([spell_info_matrix],[CONCENTRATION],=,1,2,0)
+;3: Is ritual
+[spell_info_matrix]=JOINIF([spell_info_matrix],[RITUAL],=,1,3,0)
+;4: Needs blank concentration
+[spell_info_matrix]=JOINIF([spell_info_matrix],[spell_info_matrix],@,03,4,0)
+;5: Needs blank ritual
+[spell_info_matrix]=JOINIF([spell_info_matrix],[spell_info_matrix],@,20,5,0)
 
-[section_3_content_lr]=
-[section_3_content_rl]=
 
-[section_4_content_lr]=
-[section_4_content_rl]=
+[attack_dmg_types]=REPLACE([ATTACKDMGTYPES],"\44\",")/(")
+[attack_dmg_types]=JOINIF(,[ATTACKDMGTYPES],<>,"",JOIN("(",[attack_dmg_types],")"),"")
+[attack_dmg_types]=REPLACE([attack_dmg_types]," ","")
+
+[save_dmg_types]=REPLACE([SAVEDMGTYPES],"\44\",")/(")
+[save_dmg_types]=JOINIF(,[SAVEDMGTYPES],<>,"",JOIN("(",[save_dmg_types],")"),"")
+[save_dmg_types]=REPLACE([save_dmg_types]," ","")
+
+[range_types]=REPLACE([RANGETYPES],"\44\",")/(")
+[range_types]=JOINIF(,[RANGETYPES],<>,"",JOIN("(",[range_types],")"),"")
+[range_types]=REPLACE([range_types]," ","")
+
+[save_calcs]=REPLACE([SAVECALC],"\44\","/")
+[save_calcs]=REPLACE([save_calcs]," ","")
+
+[attack_dmg]=REPLACE([ATTACKDMG]," ","")
+[save_dmg]=REPLACE([SAVEDMG]," ","")
+
+[attack_method_text]=""
+[attack_method_text]=JOINIF([attack_method_text],[attack_method_matrix],@,1,"(Attack) ","")
+[attack_method_text]=JOINIF([attack_method_text],[attack_method_matrix],@,2,"(Spell) ","")
+[attack_method_text]=JOINIF([attack_method_text],[attack_method_matrix],#,7,"<br>","")
+[attack_method_text]=JOINIF([attack_method_text],[attack_method_matrix],@,3,"(Save) ","")
+[attack_method_text]=JOINIF([attack_method_text],[attack_method_matrix],@,3,[save_calcs],"")
+
+[dmg_text]=JOIN([attack_dmg],[attack_dmg_types])
+[dmg_text]=JOIN([dmg_text],"<br>")
+[dmg_text]=JOINIF([dmg_text],[attack_method_matrix],@,3,[save_dmg],"")
+[dmg_text]=JOINIF([dmg_text],[attack_method_matrix],@,3,[save_dmg_types],"")
+[dmg_text]=JOINIF([dmg_text],[attack_method_matrix],@,6,"(Blank)","")
+
+
+[range_text]=JOIN([range_types]," ",[RANGE])
+[range_text]=JOINIF([range_text],[AOETYPE],<>,"",JOIN("<br>(",[AOETYPE],") ",[AOEDIMENSIONS]),"")
+
+[spell_info_text]=""
+[spell_info_text]=JOINIF([spell_info_text],[spell_info_matrix],@,3,"(Ritual) ","")
+[spell_info_text]=JOINIF([spell_info_text],[spell_info_matrix],@,5,"(Blank) ","")
+[spell_info_text]=JOINIF([spell_info_text],[V],=,1,"V ","")
+[spell_info_text]=JOINIF([spell_info_text],[S],=,1,"S ","")
+[spell_info_text]=JOINIF([spell_info_text],[spell_info_matrix],@,1,"<b>","")
+[spell_info_text]=JOINIF([spell_info_text],[M],=,1,"M ","")
+[spell_info_text]=JOINIF([spell_info_text],[spell_info_matrix],@,1,"</b>","")
+[spell_info_text]=JOIN([spell_info_text],"<br>")
+[spell_info_text]=JOINIF([spell_info_text],[spell_info_matrix],@,2,"(Concentration) ","")
+[spell_info_text]=JOINIF([spell_info_text],[spell_info_matrix],@,4,"(Blank) ","")
+[spell_info_text]=JOIN([spell_info_text],[DURATION])
 
 ;divider bars
 set=[all],c_divider_1_y,({divider_1_y?1})
@@ -342,28 +412,115 @@ set=[all],c_bottom_section_1_height,{bottom_section_1_height?1}-[content_padding
 [limited_use_boxes]=REPEAT("TickBox",[LU_AMOUNT])
 [limited_use_icons]=JOIN([LU_REFRESHRATE],[limited_use_boxes])
 
-[tags_icons]=REPLACE([TAGS],"\44\","")
+[tags_tokenized]=REPLACE([TAGS],"\44\",")/(")
+[tags_tokenized]=JOIN("(",[tags_tokenized],")")
+[tags_tokenized]=REPLACE([tags_tokenized]," ","")
 
-[source_text]=JOIN([SOURCE]," ",[PAGE])
+;1: Has card backs
+[footer_matrix]=JOINIF(,[number_of_card_backs],>,0,1,0)
+;2: Is first iteration
+[footer_matrix]=JOINIF([footer_matrix],[ITERATION],=,1,2,0)
+;3: Is card back
+[footer_matrix]=JOINIF([footer_matrix],[footer_matrix],@,12,3,0)
+;4: Is spell
+[footer_matrix]=JOINIF([footer_matrix],[SCHOOL],<>,"",4,0)
+;5: cantrip
+[footer_matrix]=JOINIF([footer_matrix],[LEVEL],=,0,5,0)
+;6: leveled spell
+[footer_matrix]=JOINIF([footer_matrix],[footer_matrix],@,40,6,0)
 
-
+[footer_text]=""
+[footer_text]=JOINIF([footer_text],[footer_matrix],#,4,JOIN([CARDTYPE]," ",[tags_tokenized]),"")
+[footer_text]=JOINIF([footer_text],[footer_matrix],@,5,JOIN([SCHOOL]," Cantrip ",[tags_tokenized]),"")
+[footer_text]=JOINIF([footer_text],[footer_matrix],@,6,JOIN([LEVEL],". level ", [SCHOOL]," ",[tags_tokenized]),"")
+[footer_text]=JOINIF(,[footer_matrix],@,3,JOIN([SOURCE]," ",[PAGE]),[footer_text])
 
 ;;;;;Directives;;;;;
 ;header
 HTMLTEXT=[all],[header_content],[off_the_border],[off_the_border],[full_width],[c_header_height],#FFFFFF,0,BFEM,100,header
 
 ;top sections
-HTMLTEXT=[all],[section_1_content_lr],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
-HTMLTEXT=[all],[section_1_content_rl],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+IF=[number_of_top_sections]=0
+ELSEIF=[number_of_top_sections]=1
+    IF=1@[section_matrix]
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+    ELSEIF=2@[section_matrix]
+        HTMLTEXT=[all],[range_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ELSEIF=3@[section_matrix]
+        HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ELSE
+        ICONS=[all],[RESOURCE],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+    ENDIF
+ELSEIF=[number_of_top_sections]=2
+    IF=(1@[section_matrix])_AND_(2@[section_matrix])
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
 
-HTMLTEXT=[all],[section_2_content_lr],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
-HTMLTEXT=[all],[section_2_content_rl],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+        HTMLTEXT=[all],[range_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ELSEIF=(1@[section_matrix])_AND_(3@[section_matrix])
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
 
-HTMLTEXT=[all],[section_3_content_lr],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
-HTMLTEXT=[all],[section_3_content_rl],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionRL
+        HTMLTEXT=[all],[spell_info_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ELSEIF=(1@[section_matrix])_AND_(4@[section_matrix])
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
 
-HTMLTEXT=[all],[section_4_content_lr],{c_top_section_4_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
-HTMLTEXT=[all],[section_4_content_rl],{c_top_section_4_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionRL
+        ICONS=[all],[RESOURCE],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+    ELSEIF=(3@[section_matrix])_AND_(2@[section_matrix])
+        HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        HTMLTEXT=[all],[range_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ELSEIF=(3@[section_matrix])_AND_(4@[section_matrix])
+        HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        ICONS=[all],[RESOURCE],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+    ELSEIF=(2@[section_matrix])_AND_(4@[section_matrix])
+        HTMLTEXT=[all],[range_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        ICONS=[all],[RESOURCE],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+    ENDIF
+ELSEIF=[number_of_top_sections]=3
+    IF=_NOT_(1@[section_matrix])
+        HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        HTMLTEXT=[all],[range_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        ICONS=[all],[RESOURCE],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+    ELSEIF=_NOT_(2@[section_matrix])
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+        ICONS=[all],[RESOURCE],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+
+        HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ELSEIF=_NOT_(3@[section_matrix])
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+        HTMLTEXT=[all],[range_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        ICONS=[all],[RESOURCE],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+    ELSE
+        HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+        HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+        HTMLTEXT=[all],[range_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+        HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    ENDIF
+ELSE
+HTMLTEXT=[all],"15",0,0,100%,10,#FF00FF,0,,10%
+    HTMLTEXT=[all],[attack_method_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+    HTMLTEXT=[all],[dmg_text],[off_the_border],{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionRL
+
+    HTMLTEXT=[all],[range_text],{c_top_section_2_x?1},{c_top_section_1_y?1},{c_top_section_1_width?1},{c_top_section_1_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+    HTMLTEXT=[all],[spell_info_text],[off_the_border],{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},#FFFFFF,0,BFEM,100,sectionLR
+
+    ICONS=[all],[RESOURCE],{c_top_section_4_x?1},{c_top_section_3_y?1},{c_top_section_3_width?1},{c_top_section_3_height?1},[section_icon_size],[section_icon_size],0,XPN,LEFT,CENTER
+ENDIF
 
 ;divider bars
 HTMLTEXT=[all],[divider_1_content],[off_the_border],{c_divider_1_y?1},[full_width],{c_divider_1_height?1},#FFFFFF,0,BFEM,100,divider_bars
@@ -380,12 +537,8 @@ ICONS=[all],[limited_use_icons],[off_the_border],[footer_box_y],[full_width],[fo
 FOR=I,1,[LU_AMOUNT]
 HTMLTEXT=[all],TOKENIZESEQ([LU_UNLOCKSTEPS],I,#),[off_the_border]+(I*[footer_icon_size]),[c_footer_y],[footer_icon_size],[footer_icon_size],#FFFFFF,0,EFB,50,tickBox
 NEXT
-HTMLTEXT=[all],[LU_UNLOCKTYPE],[off_the_border]+(I*[footer_icon_size])+[content_padding],[c_footer_y],100%,[footer_icon_size],#FFFFFF,0,EB,100,unlockType
+HTMLTEXT=[all],[LU_UNLOCKTYPE],[off_the_border]+({I}*[footer_icon_size])+[content_padding],[c_footer_y],100%,[footer_icon_size],#FFFFFF,0,EB,100,unlockType
 
-IF=[print_card_backs]
-HTMLTEXT=[all],[source_text],[off_the_border],[c_footer_y],[full_width],[footer_icon_size],#FFFFFF,0,EB,100,footer
-ELSE
-ICONS=[all],[tags_icons],[off_the_border],[footer_box_y],[full_width],[footer_box_thickness],[footer_icon_size],[footer_icon_size],0,XPNL,RIGHT,CENTER
-ENDIF
+HTMLTEXT=[all],[footer_text],[off_the_border],[c_footer_y],[full_width],[footer_icon_size],#FFFFFF,0,EB,100,footer
 ;;;;;;;;;;DEBUG;;;;;;;;;;
-;HTMLTEXT=[all],,0,0,100%,10,#FF00FF
+;HTMLTEXT=[all],JOIN("X:",EVAL({[off_the_border]})," Y:",EVAL({c_top_section_1_y?1})," W:",EVAL({c_top_section_1_width?1})," H:",EVAL({c_top_section_1_height?1})),0,0,100%,10,#FF00FF,0,F
