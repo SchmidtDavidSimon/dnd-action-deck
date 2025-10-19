@@ -1,16 +1,37 @@
+LINKMULTI=Count
+LINKMULDIS=ITERATION
+LINK="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
+
 ;Settings
 UNIT=MM
 PAGE=210,297,PORTRAIT,HV
 DPI=300
 CARDSIZE=63,94.5
+[page_scheme]=FILEREAD(..\BuildPipeline\pageScheme.txt)
 
-[fronts]=DIRFILES("..\Cards\Fronts\*.png")
-[backs]=DIRFILES("..\Cards\Backs\*.png")
-[rangef]=1-{(fronts)}
-[rangeb]={(fronts)+1}-{(fronts)+(backs)}
+;all range
+;Iteration is 1 AND it has backs assigned
+[matrix]=JOINIF(,[ITERATION],=,1,1,0)
+[matrix]=JOINIF([matrix],[CARDBACKS],<>,"",1,0)
 
-IMAGE=[rangef],[fronts],0,0,100%,100%
-IMAGE=[rangeb],[backs],0,0,100%,100%
-DUPLEX=[rangef],[rangeb]
-PRINT=DUPLEX
+[all]=LABELRANGE([matrix],#11)
+[all_count]=RANGECOUNT([all])
+
+[rangef]=1-[all_count]
+[rangeb]={[all_count]+1}-{[all_count]*2}
+
+[id_fix]=LABELSUB([ID],[all])
+[id_fix]=REPLACE([id_fix],"<i>Cover</i>","00_Cover")
+IMAGE=[rangef],JOIN("..\Cards\Fronts\",[id_fix],".png"),0,0,100%,100%
+IMAGE=[rangeb],JOIN("..\Cards\Backs\",[id_fix],".png"),0,0,100%,100%
+
+IF=[page_scheme]="Fronts"
+    PRINT=[rangef]
+ELSEIF=[page_scheme]="Backs"
+    PRINT=[rangeb]
+ELSE
+    DUPLEX=[rangef],[rangeb]
+    PRINT=DUPLEX
+ENDIF
+
 SAVEPDF=..\ActionDeck.pdf,N

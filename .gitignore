@@ -4,3 +4,5 @@ ActionDeck.pdf
 *.html
 *.lnk
 Build Deck.lnk
+BuildPipeline/carefulBuild.txt
+BuildPipeline/pageScheme.txt
