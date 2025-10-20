@@ -401,7 +401,8 @@ set=[all],c_divider_2_height,({divider_2_height?1})
 set=[all],c_main_y,({divider_2_y?1})+({divider_2_height?1})+[content_padding]
 set=[all],c_main_height,{bottom_section_1_y?1}-{c_main_y?1}-[border_thickness]
 
-[main_content]=[DESCRIPTION]
+[description_fixed]=REPLACE([DESCRIPTION],"\13\","<br>")
+[main_content]=[description_fixed]
 
 ;bottom section
 set=[all],c_bottom_section_1_y,{bottom_section_1_y?1}+[content_padding]
