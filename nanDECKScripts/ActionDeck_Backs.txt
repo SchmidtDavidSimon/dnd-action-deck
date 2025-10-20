@@ -1,4 +1,5 @@
 LINKMULTI=Count
+LINKMULDIS=ITERATION
 LINK="1ZTprBj91E9dm8zToC7vIb0YQM-YIE0zhXaVk-pt4ubk"
 
 ;Settings
@@ -15,22 +16,32 @@ HTMLLANG=en
 [source_height]=3
 [padding]=1.5
 
+;card backs
+[matrix]=JOINIF(,[ID],=,"<i>Cover</i>",1,"")
+[matrix]=JOINIF([matrix],[ITERATION],>,1,1,0)
+[matrix]=JOINIF([matrix],[CARDBACK],<>,"",1,0)
+[matrix]=JOINIF([matrix],[ITERATION],=,1,2,0)
+[matrix]=JOINIF([matrix],[CARDBACKS],<>,"",2,0)
+[matrix]=JOINIF([matrix],[matrix],@,22,1,0)
+
+
+[all]=LABELRANGE([matrix],#1)
+
 ;Fonts
 HTMLFONT=source,Arial,5,R,#FFFFFF,RIGHT
 
 ;Background
-RECTANGLE=,0,0,100%,100%,[ACTIONTYPECOLOR]
+RECTANGLE=[all],0,0,100%,100%,[ACTIONTYPECOLOR]
 
 ;Source
 [source_x]=[padding]
 [source_y]=[size_y]-[padding]-[source_height]
 [source_width]=[size_x]-[padding]*2
-[source_text]=JOIN([SOURCEBOOK]," ",[PAGE])
+[source_text]=JOIN([SOURCE]," ",[PAGE])
 [source_text]=REPLACE([source_text],"Players Handbook","PHB")
 [source_text]=REPLACE([source_text],"Tashas Cauldron of Everything","TCE")
-[source_text]=REPLACE([source_text],"Xanathar's Guide to Everything","XGtE")
-HTMLTEXT=,[source_text],[source_x],[source_y],[source_width],[source_height],#FFFFFF,0,EBMF,100,source
+[source_text]=REPLACE([source_text],"Xanathar's Guide to Everything","XGE")
+[source_text]=REPLACE([source_text],"Monsters of the Multiverse","MMM")
+HTMLTEXT=[all],[source_text],[source_x],[source_y],[source_width],[source_height],#FFFFFF,0,EBMF,100,source
 
-[range]=LABELRANGE([NAME],<><i>Cover</i>)
-special=£
-SAVE=[range],JOIN("..\Cards\Backs\",[NAME],"_",{£},".png"),0,0,[size_x],[size_y]
+SAVE=[all],JOIN("..\Cards\Backs\",[ID],".png"),0,0,[size_x],[size_y]
